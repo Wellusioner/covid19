@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux'
+import Container from '@material-ui/core/Container';
+import { Card, Country, Chart } from './components';
+import { globalRequest } from 'redux/actions/global'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = ({ fetchGlobal, global }) =>{
 
-export default App;
+    useEffect(() => {
+        fetchGlobal();
+    }, [fetchGlobal]);
+
+
+    return (
+        <div className={'main-page'}>
+            <Container maxWidth="lg">
+                <div className={'main-title'}><img src={require('./assets/images/covid.png')} alt=""/></div>
+                <Card data={global} />
+                <Country />
+                <Chart />
+            </Container>
+        </div>
+    );
+
+};
+
+const mapStateToProps = state => {
+    return {
+        global: state.data.global,
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchGlobal: () => {
+            dispatch(globalRequest())
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
