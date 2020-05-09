@@ -1,31 +1,32 @@
-import Actions from "../actions";
+import Actions from '../actions'
+
 
 const initialState = {
+    data: [],
     isFetched: true,
-    countries: [],
     error: null
 };
 
-export default (state = initialState, action) => {
+export default (state=initialState, action) => {
     switch(action.type){
-        case Actions.fetchCountries.REQUEST:
+        case Actions.fetchDaily.REQUEST:
             return {
                 ...state,
                 isFetched: false
             };
-        case Actions.fetchCountries.SUCCESS:
+        case Actions.fetchDaily.SUCCESS:
             return {
                 ...state,
-                countries: [...state.countries, ...action.payload],
+                data: [...state.data, ...action.payload],
                 isFetched: true
             };
-        case Actions.fetchCountries.ERROR:
+        case Actions.fetchDaily.ERROR:
             return {
                 ...state,
-                error: action.payload,
-                isFetched: true
+                error: action.payload
             };
         default:
             return state
+
     }
 }

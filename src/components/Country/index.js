@@ -3,18 +3,20 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from "@material-ui/core/Grid";
 import { connect, useDispatch } from 'react-redux'
-import { countriesRequest } from "redux/actions/countries";
+import Actions from "redux/actions";
 
-const Country = ({ countries }) => {
+const Country = ({ countries, getGlobal }) => {
 
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch(Actions.fetchCountries.request());
+    },[dispatch]);
 
-    // Executing useEffect can cause an infinite loop
-
-    // useEffect(() => {
-    //     dispatch(countriesRequest());
-    // },[dispatch]);
+    const handleChange = value => {
+        dispatch(Actions.fetchOneCountry.request(value));
+        getGlobal(value ? value : null);
+    };
 
     return (
         <Grid container justify={'center'} spacing={1}>
@@ -22,7 +24,8 @@ const Country = ({ countries }) => {
                 <div style={{ width: '100%' }}>
                     <Autocomplete
                         options={countries}
-                        getOptionLabel={option => option.title}
+                        getOptionLabel={option => option.name}
+                        onChange={(_,value) => handleChange(value)}
                         id="debug"
                         debug
                         renderInput={(params) => <TextField {...params} label="Davlatni tanlang" margin="normal"/>}

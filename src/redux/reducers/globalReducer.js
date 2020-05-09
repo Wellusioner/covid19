@@ -1,8 +1,4 @@
-import {
-    FETCH_GLOBAL_REQUEST,
-    FETCH_GLOBAL_SUCCESS,
-    FETCH_GLOBAL_ERROR
-} from '../constants/global'
+import Actions from '../actions/index'
 
 const initialState = {
     loading: false,
@@ -13,18 +9,18 @@ const initialState = {
 export default (state = initialState, action) => {
 
     switch(action.type){
-        case FETCH_GLOBAL_REQUEST:
+        case Actions.fetchGlobal.REQUEST:
             return {
                 ...state,
                 loading: true
             };
-        case FETCH_GLOBAL_SUCCESS:
+        case Actions.fetchGlobal.SUCCESS:
             return {
                 ...state,
                 global: action.payload,
                 loading: false
             };
-        case FETCH_GLOBAL_ERROR:
+        case Actions.fetchGlobal.ERROR:
             return {
                 ...state,
                 loading: false,

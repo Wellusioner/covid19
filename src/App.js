@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux'
 import Container from '@material-ui/core/Container';
 import { Card, Country, Chart } from './components';
-import { globalRequest } from 'redux/actions/global';
+import Actions from 'redux/actions';
 
 const App = ({ global }) =>{
 
+    const [isGlobal, setGlobal] = useState(null);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(globalRequest());
+        dispatch(Actions.fetchGlobal.request());
     }, [dispatch]);
 
 
@@ -18,12 +19,11 @@ const App = ({ global }) =>{
             <Container maxWidth="lg">
                 <div className={'main-title'}><img src={require('./assets/images/covid.png')} alt=""/></div>
                 <Card data={global} />
-                <Country />
-                <Chart />
+                <Country getGlobal={value => setGlobal(value)} />
+                <Chart {...{isGlobal, global}} />
             </Container>
         </div>
     );
-
 };
 
 const mapStateToProps = state => {

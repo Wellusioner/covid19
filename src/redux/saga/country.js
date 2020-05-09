@@ -1,5 +1,5 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects'
-import * as Constants from '../constants/country'
+import Actions from '../actions/index'
 import { api } from 'services'
 
 
@@ -8,21 +8,34 @@ function* fetchCountries() {
 
         const {data: { countries }} = yield call(api.request.get, api.queryBuilder('countries'));
 
-        yield put({
-            type: Constants.FETCH_COUNTRIES_SUCCESS,
-            payload: countries
-        })
+        yield put(Actions.fetchCountries.success(countries));
 
     } catch (error) {
-        yield put({
-            type: Constants.FETCH_COUNTRIES_ERROR,
-            payload: error
-        })
+        yield put(Actions.fetchCountries.error(error));
     }
 }
 
+function* fetchOneCountry({ payload }){
+    try{
+
+        const options = payload ? api.queryBuilder(`countries/${payload.name}`) : null;
+        const { data: { confirmed, deaths, recovered, lastUpdate} } = yield call(api.request.get, options);
+
+        yield put(Actions.fetchGlobal.success({
+            confirmed,
+            deaths,
+            recovered,
+            lastUpdate
+        }))
+    } catch(error){
+
+    }
+}
+
+
 export default function* root() {
     yield all([
-        takeLatest(Constants.FETCH_COUNTRIES_REQUEST, fetchCountries)
+        takeLatest(Actions.fetchCountries.REQUEST, fetchCountries),
+        takeLatest(Actions.fetchOneCountry.REQUEST, fetchOneCountry),
     ])
 }
