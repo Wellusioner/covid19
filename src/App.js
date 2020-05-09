@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import Container from '@material-ui/core/Container';
 import { Card, Country, Chart } from './components';
-import { globalRequest } from 'redux/actions/global'
+import { globalRequest } from 'redux/actions/global';
 
-const App = ({ fetchGlobal, global }) =>{
+const App = ({ global }) =>{
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        fetchGlobal();
-    }, [fetchGlobal]);
+        dispatch(globalRequest());
+    }, [dispatch]);
 
 
     return (
@@ -30,12 +32,4 @@ const mapStateToProps = state => {
     }
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        fetchGlobal: () => {
-            dispatch(globalRequest())
-        }
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

@@ -9,9 +9,9 @@ body{
     font-family: sans-serif;
 }
 .main-page{
-    padding: 40px 0;
+    padding: 40px 0 100px;
     background: url('../images/doctor2.jpg') no-repeat 130% 100%;
-    background-size: 50vw;
+    background-size: 55vw;
 }
 .main-title{
     text-align: center;

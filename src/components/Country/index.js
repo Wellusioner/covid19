@@ -2,16 +2,19 @@ import React, { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from "@material-ui/core/Grid";
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { countriesRequest } from "redux/actions/countries";
 
-const Country = ({ fetchCountries, countries }) => {
+const Country = ({ countries }) => {
+
+    const dispatch = useDispatch();
 
 
-    useEffect(() => {
-        fetchCountries();
-    }, [fetchCountries]);
+    // Executing useEffect can cause an infinite loop
 
+    // useEffect(() => {
+    //     dispatch(countriesRequest());
+    // },[dispatch]);
 
     return (
         <Grid container justify={'center'} spacing={1}>
@@ -30,18 +33,11 @@ const Country = ({ fetchCountries, countries }) => {
     );
 };
 
-const  mapStateToProps = state => {
+const mapStateToProps = state => {
     return {
         countries: state.countries.countries
     }
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        fetchCountries: () => {
-            dispatch(countriesRequest())
-        }
-    }
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Country);
+export default connect(mapStateToProps)(Country);

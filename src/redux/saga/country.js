@@ -6,13 +6,12 @@ import { api } from 'services'
 function* fetchCountries() {
     try {
 
-        const { countries } = yield call(api.request.get, api.queryBuilder('countries'));
+        const {data: { countries }} = yield call(api.request.get, api.queryBuilder('countries'));
 
-        // Shu kommentni o'chirsa request to'tovsiz ketyapti
-        // yield put({
-        //     type: Constants.FETCH_COUNTRIES_SUCCESS,
-        //     payload: countries
-        // })
+        yield put({
+            type: Constants.FETCH_COUNTRIES_SUCCESS,
+            payload: countries
+        })
 
     } catch (error) {
         yield put({
