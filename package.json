@@ -2,6 +2,7 @@
   "name": "covid_19",
   "version": "0.1.0",
   "private": true,
+  "hompage": "http://wellusioner.github.io/covid19",
   "dependencies": {
     "@material-ui/core": "^4.9.12",
     "@material-ui/lab": "^4.0.0-alpha.51",
@@ -28,7 +29,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "npm run build && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
